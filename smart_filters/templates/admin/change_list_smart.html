@@ -1,0 +1,40 @@
+{% extends "admin/change_list.html" %}
+{% load i18n %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style type="text/css">
+#filter-msg {
+  border: 1px solid #93d58f;
+  background: #e8ffd7 url({{ MEDIA_URL }}admin/img/filter-icon.gif) no-repeat 6px 5px;
+  padding: 4px 5px 4px 25px;
+  color: #3a7f36;
+  clear: both;
+  margin-bottom: 3px; 
+  display: block;
+  float: none;
+}
+</style>
+{% endblock %}
+
+{% block object-tools %}
+  {% if has_add_permission %}
+    <ul class="object-tools">
+      {% block tools %}
+      <li>
+        <a href="add/{% if is_popup %}?_popup=1{% endif %}" class="addlink">
+          {% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}
+        </a>
+      </li>
+      {% endblock %}
+    </ul>
+  {% endif %}
+  {% if filter_msg %}
+  <div id="filter-msg">
+    <strong>Filtered results</strong>
+    <span>{{ filter_msg }}</span>
+    <a href="?clear">Clear filters</a>
+  </div>
+  {% endif %}
+{% endblock %}
+

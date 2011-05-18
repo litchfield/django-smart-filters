@@ -1,0 +1,25 @@
+{% load i18n %}
+<h3>{% blocktrans with title as filter_title %} By {{ filter_title }} {% endblocktrans %}</h3>
+{% if choices|length > 15 %}
+  <style>
+    #changelist-filter select { width: 140px; }
+  </style>
+  <select style="margin: 5px 10px;" onchange="window.location=this.options[this.selectedIndex].value">
+    {% for choice in choices %}
+    <option {% if choice.selected %}selected{% endif %} 
+            value="{% if choice.query_string == "?" %}?clear{% else %}{{ choice.query_string|iriencode }}{% endif %}">
+      {{ choice.display }}
+    </option>
+    {% endfor %}
+  </select>
+{% else %}
+  <ul>
+    {% for choice in choices %}
+      <li{% if choice.selected %} class="selected"{% endif %}>
+        <a href="{% if choice.query_string == "?" %}?clear{% else %}{{ choice.query_string|iriencode }}{% endif %}">
+          {{ choice.display }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
